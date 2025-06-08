@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# Env file
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Diretórios do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Pasta de cobertura de testes (caso use Jest)
+coverage/
+
+# Pasta de cache do npm
+.npm
+
+# Editor e sistema
+.vscode/
+.idea/
+
+
+#node_modules/: pasta onde ficam as dependências instaladas pelo npm, que é muito grande e pode ser restaurada via npm install.
+
+#.env: arquivo com variáveis sensíveis (chaves, senhas).
+
+#Logs e caches: arquivos temporários que não precisamos versionar.
+
+#.vscode/ e .idea/: pastas de configurações dos editores VSCode e IntelliJ/WebStorm, que são específicas do seu ambiente local.
