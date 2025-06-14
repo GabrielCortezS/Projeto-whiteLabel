@@ -10,9 +10,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(morgan('dev'));
 app.use('/api/items', itemRoutes);
 app.use(errorHandler);
-app.use(morgan('dev'));
+
 
 const PORT = process.env.PORT || 5000;
 
