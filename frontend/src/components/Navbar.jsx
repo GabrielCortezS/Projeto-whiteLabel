@@ -1,53 +1,70 @@
-import React from "react";
-import { Link } from "react-router-dom";
+// src/components/Navbar.jsx
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 /**
- * Componente de menu de navegação (Navbar).
- * Permite o usuário navegar entre as páginas principais do sistema.
+ * Componente Navbar
+ * Exibe a barra de navegação com links para as páginas principais.
+ * Inclui um menu mobile com toggle (hambúrguer).
  */
+function Navbar() {
+  // Estado para controlar a abertura do menu mobile
+  const [menuOpen, setMenuOpen] = useState(false);
 
-const Navbar = () => {
-    return(
-        <nav styles = {styles.navbar}>
-            <ul styles = {styles.navList}>
-                <li styles = {styles.navItem}>
-                    <Link to ="/" styles = {styles.navLink}>HOME</Link>
-                </li>
-                <li styles = {styles.navItem}>
-                    <Link to ="/" styles = {styles.navLink}>Produtos</Link>
-                </li>
-                <li styles = {styles.navItem}>
-                    <Link to ="/" styles = {styles.navLink}>Cadastrar Produto</Link>
-                </li>
-            </ul>
-        </nav>
-    );
-};
+  // Alterna a visibilidade do menu mobile
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
-// Estilos simples para o Navbar (pode ser trocado por CSS ou Tailwind depois)
+  return (
+    <nav className="bg-white shadow-md">
+      {/* Container principal da navbar */}
+      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        {/* Nome/logo da aplicação */}
+        <Link to="/" className="text-lg font-bold text-primaryDark">
+          Farmácia
+        </Link>
 
-const styles = {
-    navbar: {
-        background:'#007bff',
-         padding: '10px',
-    },
+        {/* Menu desktop */}
+        <div className="hidden md:flex space-x-6">
+          <Link to="/" className="text-gray-700 hover:text-primaryDark transition">
+            Home
+          </Link>
+          <Link to="/produtos" className="text-gray-700 hover:text-primaryDark transition">
+            Produtos
+          </Link>
+          <Link to="/produtos/cadastrar" className="text-gray-700 hover:text-primaryDark transition">
+            Cadastrar
+          </Link>
+        </div>
 
-    navList:{
-        listStyle: 'none',
-        display: 'flex,',
-        margin: 0,
-        padding:0,
-    },
+        {/* Botão de menu mobile (hambúrguer) visível apenas em telas pequenas */}
+        <button
+          className="md:hidden focus:outline-none"
+          onClick={toggleMenu}
+        >
+          <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
 
-    navItem:{
-        marginRight:'15px', 
-    },
-
-    navLink:{
-        color:'white',
-        textDecoration:'none',
-        fontWeigth:'bold',
-    }
-};
+      {/* Menu mobile: exibido apenas se menuOpen for true */}
+      {menuOpen && (
+        <div className="md:hidden bg-white shadow-md px-4 pt-2 pb-4 transition-all duration-300 ease-in-out">
+          <Link to="/" className="block py-2 text-gray-700 hover:text-primaryDark">
+            Home
+          </Link>
+          <Link to="/produtos" className="block py-2 text-gray-700 hover:text-primaryDark">
+            Produtos
+          </Link>
+          <Link to="/produtos/cadastrar" className="block py-2 text-gray-700 hover:text-primaryDark">
+            Cadastrar
+          </Link>
+        </div>
+      )}
+    </nav>
+  );
+}
 
 export default Navbar;

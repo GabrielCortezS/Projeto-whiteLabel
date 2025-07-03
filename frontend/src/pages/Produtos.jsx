@@ -44,20 +44,33 @@ const Produtos = () => {
     navigate(`/produtos/editar/${id}`); // Redireciona para a rota de edição com o ID
   };
 
-  return (
-    <div>
-      <h1>Lista de Produtos</h1>
+ return (
+    <div className="min-h-screen bg-darkslategray text-white p-6">
+      <h1 className="text-3xl font-bold mb-4 text-springgreen">Produtos Cadastrados</h1>
 
-      <ul>
-        {/* Mapeia os produtos do estado e cria uma <li> para cada um */}
-        {produtos.map((produto) => (
-          <li key={produto._id}>
-            {produto.name}{" "}
-            <button onClick={() => editarProduto(produto._id)}>Editar</button>{" "}
-            <button onClick={() => deletarProduto(produto._id)}>Excluir</button>
-          </li>
-        ))}
-      </ul>
+      <div className="bg-white rounded-lg shadow p-4">
+        <ul className="divide-y divide-gray-300">
+          {produtos.map((produto) => (
+            <li key={produto._id} className="flex justify-between items-center py-2">
+              <span className="text-darkslategray font-medium">{produto.name}</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => editarProduto(produto._id)}
+                  className="bg-darkslategray hover:bg-palegreen text-white px-3 py-1 rounded"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => deletarProduto(produto._id)}
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                >
+                  Excluir
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
