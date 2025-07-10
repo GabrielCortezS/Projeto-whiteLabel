@@ -1,47 +1,50 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator'); // Se estiver usando validação
+const { body, validationResult } = require('express-validator');
 const router = express.Router();
-const itemController = require('../controllers/itemController'); // Ajuste o caminho se necessário
+const itemController = require('../controllers/itemController');
+const authenticateToken = require('../middlewares/authMiddleware'); // Importa o middleware de autenticação
 
+// Criação de item (protegida por autenticação)
 router.post(
   '/',
+  authenticateToken, // Proteção JWT
   [
-    body('name').notEmpty().withMessage('Name is required')  // Validação do campo 'name'
+    body('name').notEmpty().withMessage('Name is required') // Validação
   ],
   (req, res, next) => {
-    const errors = validationResult(req);                   // Checa erros da validação
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() }); // Responde com erro 400 se inválido
+      return res.status(400).json({ errors: errors.array() });
     }
-    next(); // Continua para o controller se válido
+    next();
   },
-  itemController.createItem  // Controller que cria o item
+  itemController.createItem
 );
 
-// Lista todos os itens (GET /)
-router.get('/', itemController.getItems);
+// Listagem de itens (protegida por autenticação)
+router.get('/', authenticateToken, itemController.getItems);
 
-// Busca item por ID (GET /:id)
-router.get('/:id', itemController.getItemById);
+// Busca por ID (protegida por autenticação)
+router.get('/:id', authenticateToken, itemController.getItemById);
 
-// Atualiza um item por ID (PUT /:id)
-// Também valida que 'name' não está vazio
+// Atualização (protegida por autenticação)
 router.put(
   '/:id',
+  authenticateToken, // Proteção JWT
   [
-    body('name').notEmpty().withMessage('Name is required')  // Validação do campo 'name'
+    body('name').notEmpty().withMessage('Name is required')
   ],
   (req, res, next) => {
-    const errors = validationResult(req);                   // Checa erros da validação
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() }); // Responde com erro 400 se inválido
+      return res.status(400).json({ errors: errors.array() });
     }
-    next(); // Continua para o controller se válido
+    next();
   },
-  itemController.updateItem  // Controller que atualiza o item
+  itemController.updateItem
 );
 
-// Deleta um item por ID (DELETE /:id)
-router.delete('/:id', itemController.deleteItem);
+// Exclusão (protegida por autenticação)
+router.delete('/:id', authenticateToken, itemController.deleteItem);
 
-module.exports =router;
+module.exports = router;
